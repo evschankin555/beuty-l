@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="dfbda1bb-5aca-4236-8343-6809dc651634" name="beautylottery">
+        <fileTransfer rootFolder="/var/www/beautylottery" accessType="SFTP" host="178.253.42.211" port="22" sshConfigId="bff728ba-1525-4c1a-87bd-3e7e8ed418da" sshConfig="root@178.253.42.211:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
