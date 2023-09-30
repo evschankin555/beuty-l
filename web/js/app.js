@@ -3,6 +3,7 @@ class PopupManager {
         this.initPopup();
         this.initOverlay();
         this.initClose();
+        this.initTicketSelector('.tickets__item');
     }
 
     initPopup() {
@@ -27,6 +28,13 @@ class PopupManager {
         $('.js-close').on('click', () => {
             $('.js-overlay').fadeOut(500);
             $('.js-popup').fadeOut(500);
+        });
+    }
+
+    initTicketSelector(selector) {
+        $(selector).on('click', function() {
+            $(selector).removeClass('active');
+            $(this).addClass('active');
         });
     }
 }

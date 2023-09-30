@@ -25,7 +25,7 @@ use yii\bootstrap5\Button;
             </div>
             <div class="tickets__price">90 руб</div>
         </div>
-        <div class="tickets__item">
+        <div class="tickets__item active">
             <div class="tickets__count">
                 <img src="images/dist/ticket-2.svg" alt="">
                 <!-- <span>5</span> -->

@@ -126,3 +126,10 @@ a.desc:after {
 .footer {
      margin-top: 200px;
  }
+.tickets__item.active .tickets__price {
+    background: -webkit-gradient(linear, left top, right top, from(#fd8cbf), color-stop(156.96%, #c86a94));
+    background: -webkit-linear-gradient(left, #fd8cbf 0, #c86a94 156.96%);
+    background: -moz-linear-gradient(left, #fd8cbf 0, #c86a94 156.96%);
+    background: -o-linear-gradient(left, #fd8cbf 0, #c86a94 156.96%);
+    background: linear-gradient(90deg, #fd8cbf 0, #c86a94 156.96%);
+}
