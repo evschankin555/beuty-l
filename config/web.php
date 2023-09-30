@@ -42,6 +42,8 @@ $config = [
             ],
         ],
         'db' => $db,
+        'urlManager' => require(__DIR__ . '/__urlManager.php'),
+
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
