@@ -3,7 +3,7 @@ main > .container {
 }
 
 .footer {
-    background-color: #f5f5f5;
+    background-color: transparent;
     font-size: .9em;
     height: 60px;
 }
@@ -85,4 +85,25 @@ a.desc:after {
 
 .form-group {
     margin-bottom: 1rem;
+}
+.tickets__item{
+    cursor: pointer;
+}
+.tickets .tickets__grid{
+    max-width: 400px;
+    margin: 15px auto;
+}
+
+@media (min-width: 800px){
+    .wrapper {
+        max-width: 600px;
+    }
+}
+
+.tickets__item:hover .tickets__price {
+    background: -webkit-gradient(linear, left top, right top, from(#fd8cbf), color-stop(156.96%, #c86a94));
+    background: -webkit-linear-gradient(left, #fd8cbf 0, #c86a94 156.96%);
+    background: -moz-linear-gradient(left, #fd8cbf 0, #c86a94 156.96%);
+    background: -o-linear-gradient(left, #fd8cbf 0, #c86a94 156.96%);
+    background: linear-gradient(90deg, #fd8cbf 0, #c86a94 156.96%);
 }

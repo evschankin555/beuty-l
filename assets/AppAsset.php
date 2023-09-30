@@ -1,31 +1,43 @@
 <?php
-/**
- * @link https://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license https://www.yiiframework.com/license/
- */
 
 namespace app\assets;
 
 use yii\web\AssetBundle;
 
-/**
- * Main application asset bundle.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @since 2.0
- */
 class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    public $css = [
-        'css/site.css',
-    ];
-    public $js = [
-    ];
-    public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset'
-    ];
+    public $css = [];
+    public $js = [];
+    public $jsOptions = ['position' => \yii\web\View::POS_END];
+
+    public function init()
+    {
+        parent::init();
+
+        // Регистрация main.min.css
+        $mainCssFile = 'css/main.min.css';
+        $mainCssFilePath = $this->basePath . '/' . $mainCssFile;
+        if (file_exists($mainCssFilePath)) {
+            $mainVersion = filemtime($mainCssFilePath);
+            $this->css[] = $mainCssFile . '?v=' . $mainVersion;
+        } else {
+            $this->css[] = $mainCssFile;
+        }
+
+        // Регистрация site.css
+        $cssFile = 'css/site.css';
+        $cssFilePath = $this->basePath . '/' . $cssFile;
+        if (file_exists($cssFilePath)) {
+            $version = filemtime($cssFilePath);
+            $this->css[] = $cssFile . '?v=' . $version;
+        } else {
+            $this->css[] = $cssFile;
+        }
+
+        // Регистрация JavaScript-файлов
+        $this->js[] = 'js/jquery.min.js';
+        $this->js[] = 'js/app.js';
+    }
 }
