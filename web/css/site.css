@@ -5,7 +5,6 @@ main > .container {
 .footer {
     background-color: transparent;
     font-size: .9em;
-    height: 60px;
 }
 
 .footer > .container {
@@ -117,3 +116,13 @@ a.desc:after {
     height: 100%;
     z-index: 89; /* Значение должно быть меньше, чем у .popup */
 }
+.footer__politics {
+    font-size: 14px;
+    text-align: center;
+}
+.footer__author {
+    font-size: 14px;
+}
+.footer {
+     margin-top: 200px;
+ }
