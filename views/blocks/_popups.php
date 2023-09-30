@@ -1,7 +1,7 @@
 <div class="overlay js-overlay"></div>
 
 <div class="popup js-popup" id="buy">
-    <div class="popup__title">Посла оплаты Вы автоматически становитесь участником лотереи.</div>
+    <div class="popup__title">После оплаты Вы автоматически становитесь участником лотереи.</div>
     <form action="#" class="myform">
         <label for="email" class="myform__label">Укажите ваш Email</label>
         <input type="email" id="email" class="myform__input" required>

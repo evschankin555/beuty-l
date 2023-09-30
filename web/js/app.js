@@ -1,36 +1,36 @@
+class PopupManager {
+    constructor() {
+        this.initPopup();
+        this.initOverlay();
+        this.initClose();
+    }
+
+    initPopup() {
+        $('.js-btn').on('click', (e) => {
+            e.preventDefault();
+            const id = $(e.currentTarget).attr('data-link');
+            $(`#${id}`).fadeIn(500);
+            $('.js-overlay').fadeIn(500).css('opacity', '0.7');
+        });
+    }
+
+    initOverlay() {
+        $('.js-overlay').on('click', (e) => {
+            if (!$(e.target).closest('.popup').length) {
+                $('.js-overlay').fadeOut(500);
+                $('.js-popup').fadeOut(500);
+            }
+        });
+    }
+
+    initClose() {
+        $('.js-close').on('click', () => {
+            $('.js-overlay').fadeOut(500);
+            $('.js-popup').fadeOut(500);
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-
-    
-    /* popup
-    ====================================*/
-    $('.js-btn').on('click', function(e){
-        e.preventDefault();
-        var id = $(this).attr('data-link');
-        $('#' + id).fadeIn(500);
-        //        $('#' + id).fadeIn(500);
-        //$('body').addClass('hidden-scroll');
-        $('.js-overlay').fadeIn(500);
-        return false;
-
-    });
-
-    $(".js-overlay").on("click", function() {
-       // $('body').removeClass('hidden-scroll');
-        $(".js-overlay").fadeOut(500);
-        $('.js-popup').fadeOut(500);
-    });
-
-    $('.js-close').on('click', function() {
-        $(".js-overlay").fadeOut();
-        $('.js-popup').fadeOut(500);
-    });
-    
-    
-
- 
-
+    const popupManager = new PopupManager();
 });
-
-
-
-
