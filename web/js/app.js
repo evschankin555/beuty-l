@@ -4,6 +4,7 @@ class PopupManager {
         this.initOverlay();
         this.initClose();
         this.initTicketSelector('.tickets__item');
+        this.emailPopupManager = new EmailPopupManager();
     }
 
     initPopup() {
@@ -11,11 +12,8 @@ class PopupManager {
             e.preventDefault();
             const formElement = document.getElementById("ticketsForm");
             const agreeCheckbox = $('#agree1')[0];
-
-            // Применяем reportValidity
             const valid = formElement.reportValidity();
 
-            // Если форма невалидна, устанавливаем фокус на чекбоксе и прекращаем выполнение функции
             if (!valid) {
                 agreeCheckbox.focus();
                 return;
@@ -26,7 +24,6 @@ class PopupManager {
             $('.js-overlay').fadeIn(500).css('opacity', '0.7');
         });
     }
-
 
     initOverlay() {
         $('.js-overlay').on('click', (e) => {
@@ -48,6 +45,30 @@ class PopupManager {
         $(selector).on('click', function() {
             $(selector).removeClass('active');
             $(this).addClass('active');
+        });
+    }
+}
+
+class EmailPopupManager {
+    constructor() {
+        this.initPopup();
+        this.initClose();
+    }
+
+    initPopup() {
+        $('#emailPopupBtn').on('click', (e) => {
+            e.preventDefault();
+
+            // Показываем модальное окно
+            $('#emailPopup').fadeIn(500);
+            $('.js-overlay').fadeIn(500).css('opacity', '0.7');
+        });
+    }
+
+    initClose() {
+        $('#emailCloseBtn').on('click', () => {
+            $('#emailPopup').fadeOut(500);
+            $('.js-overlay').fadeOut(500);
         });
     }
 }
