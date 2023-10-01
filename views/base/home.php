@@ -16,32 +16,34 @@ use yii\bootstrap5\Button;
 </div>
 
 <div class="tickets">
-    <div class="tickets__title">выберите количество билетов</div>
     <form id="ticketsForm">
-    <div class="tickets__grid">
-        <div class="tickets__item">
-            <div class="tickets__count">
-                <img src="images/dist/ticket-1.svg" alt="">
-                <!-- <span>1</span> -->
+    <div class="tickets__wrap">
+        <div class="tickets__title">выберите количество билетов</div>
+            <div class="tickets__grid">
+                <div class="tickets__item">
+                    <div class="tickets__count">
+                        <img src="images/dist/ticket-1.svg" alt="">
+                        <!-- <span>1</span> -->
+                    </div>
+                    <div class="tickets__price">90 руб</div>
+                </div>
+                <div class="tickets__item active">
+                    <div class="tickets__count">
+                        <img src="images/dist/ticket-2.svg" alt="">
+                        <!-- <span>5</span> -->
+                    </div>
+                    <div class="tickets__price">450 руб</div>
+                </div>
+                <div class="tickets__item">
+                    <div class="tickets__count">
+                        <img src="images/dist/ticket-3.svg" alt="">
+                        <!-- <span>10</span> -->
+                    </div>
+                    <div class="tickets__price">900 руб</div>
+                </div>
             </div>
-            <div class="tickets__price">90 руб</div>
-        </div>
-        <div class="tickets__item active">
-            <div class="tickets__count">
-                <img src="images/dist/ticket-2.svg" alt="">
-                <!-- <span>5</span> -->
-            </div>
-            <div class="tickets__price">450 руб</div>
-        </div>
-        <div class="tickets__item">
-            <div class="tickets__count">
-                <img src="images/dist/ticket-3.svg" alt="">
-                <!-- <span>10</span> -->
-            </div>
-            <div class="tickets__price">900 руб</div>
-        </div>
+        <!-- /.tickets__grid -->
     </div>
-    <!-- /.tickets__grid -->
 
         <div class="agree">
             <input type="checkbox" id="agree1" required>

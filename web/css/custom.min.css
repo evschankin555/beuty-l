@@ -695,3 +695,9 @@ body{
     display: block;
     width: 350px;
 }
+.tickets__wrap {
+    background:linear-gradient(131deg, #fff -44.83%, rgb(235 214 187 / 0%) 101.32%);
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 20px 10px 20px;
+}
