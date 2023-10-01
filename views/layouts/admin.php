@@ -2,19 +2,13 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-/* @var $model \app\models\SearchForm */
 
 use yii\helpers\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
-use yii\widgets\Breadcrumbs;
-use yii\widgets\ActiveForm;
 use app\assets\AppAssetAdmin;
 
 AppAssetAdmin::register($this);
-
-$modelUser = new \app\models\User();
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -31,37 +25,43 @@ $modelUser = new \app\models\User();
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-<?php
+    <?php
     NavBar::begin([
         'brandLabel' => 'Админ панель',
         'brandUrl' => '/admin-panel',
         'options' => [
-            'class' => 'navbar navbar-expand-lg fixed-top navbar-dark bg-primary  ',
+            'class' => 'navbar navbar-expand-lg fixed-top navbar-dark bg-primary',
         ],
     ]);
-?>
-    <div class="collapse navbar-collapse center">
-        </div>
-            <?php
-            $currentRoute = Yii::$app->controller->getRoute();
 
-            if ($currentRoute != 'pages/login') {
-                echo Nav::widget([
-                    'options' => ['class' => 'navbar-nav ml-auto'],
-                    'items' => [
-                        Yii::$app->user->isGuest ? (
-                        ['label' => 'Войти', 'url' => ['/login']]
-                        ) : (
-                            '<li class="nav-item">'
-                            . UserMenuButtonWidget::widget()
-                            . '</li>'
-                        )
-                    ],
-                ]);
-            }
+    $currentRoute = Yii::$app->controller->getRoute();
+    if ($currentRoute != 'pages/login') {
+        $menuItems = [];
+
+        if (Yii::$app->user->isGuest) {
+            $menuItems[] = ['label' => 'Войти', 'url' => ['/login']];
+        } else {
+            $menuItems[] = '<li class="nav-item">'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    ['class' => 'nav-link btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>';
+        }
+
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav ml-auto'],
+            'items' => $menuItems,
+        ]);
+    }
 
     NavBar::end();
     ?>
+    <div class="container main-container">
+        <?= $content ?>
+    </div>
 </div>
 <footer id="footer">
     <div class="container">
