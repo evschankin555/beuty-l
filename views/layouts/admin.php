@@ -44,7 +44,7 @@ AppAssetAdmin::register($this);
             $menuItems[] = '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Выйти (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'nav-link btn btn-link logout']
                 )
                 . Html::endForm()

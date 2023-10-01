@@ -696,8 +696,32 @@ body{
     width: 350px;
 }
 .tickets__wrap {
-    background:linear-gradient(131deg, #fff -44.83%, rgb(235 214 187 / 0%) 101.32%);
-    border-radius: 20px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    padding: 20px 10px 20px;
+    box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.25);
+    background: url(../images/dist/popup-bg.png) no-repeat right bottom, linear-gradient(130deg, #eb95bc 66.9%, #fff 150.99%);
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    color: #fff;
+    max-width: 470px;
+    padding: 30px;
+    margin-top: 40px;
+}
+.login-button{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background: rgba(255, 255, 255, .3);
+    border: 1px solid #fffdd6;
+    color: #fff;
+    font-size: 23px;
+    width: 100%;
+}
+.login-button:hover{
+    background: rgba(255, 255, 255, .5);
+    border: 1px solid #fffdd6;
+}
+.invalid-feedback{
+    color: #fff;
+}
+.form-control.is-invalid, .was-validated .form-control:invalid{
+    border-color: #fff;
 }
