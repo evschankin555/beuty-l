@@ -9,11 +9,24 @@ class PopupManager {
     initPopup() {
         $('.js-btn').on('click', (e) => {
             e.preventDefault();
+            const formElement = document.getElementById("ticketsForm");
+            const agreeCheckbox = $('#agree1')[0];
+
+            // Применяем reportValidity
+            const valid = formElement.reportValidity();
+
+            // Если форма невалидна, устанавливаем фокус на чекбоксе и прекращаем выполнение функции
+            if (!valid) {
+                agreeCheckbox.focus();
+                return;
+            }
+
             const id = $(e.currentTarget).attr('data-link');
             $(`#${id}`).fadeIn(500);
             $('.js-overlay').fadeIn(500).css('opacity', '0.7');
         });
     }
+
 
     initOverlay() {
         $('.js-overlay').on('click', (e) => {

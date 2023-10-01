@@ -133,3 +133,12 @@ a.desc:after {
     background: -o-linear-gradient(left, #fd8cbf 0, #c86a94 156.96%);
     background: linear-gradient(90deg, #fd8cbf 0, #c86a94 156.96%);
 }
+.agree input[type=checkbox] {
+    display: block;
+    position: absolute;
+    top: 10px;
+    z-index: -1;
+}
+.agree{
+    position: relative;
+}

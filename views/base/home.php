@@ -17,6 +17,7 @@ use yii\bootstrap5\Button;
 
 <div class="tickets">
     <div class="tickets__title">выберите количество билетов</div>
+    <form id="ticketsForm">
     <div class="tickets__grid">
         <div class="tickets__item">
             <div class="tickets__count">
@@ -42,10 +43,10 @@ use yii\bootstrap5\Button;
     </div>
     <!-- /.tickets__grid -->
 
-    <div class="agree">
-        <input type="checkbox" id="agree1" required>
-        <label for="agree1" class="agree__label">я согласен с правилами</label>
-    </div>
-
-    <button type="button" data-link="buy" class="btn js-btn">перейти к оплате</button>
+        <div class="agree">
+            <input type="checkbox" id="agree1" required>
+            <label for="agree1" class="agree__label">я согласен с правилами</label>
+        </div>
+        <button type="button" data-link="buy" class="btn js-btn">перейти к оплате</button>
+    </form>
 </div>
