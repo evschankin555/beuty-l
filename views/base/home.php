@@ -43,7 +43,7 @@ use yii\bootstrap5\Button;
     <!-- /.tickets__grid -->
 
     <div class="agree">
-        <input type="checkbox" id="agree1">
+        <input type="checkbox" id="agree1" required>
         <label for="agree1" class="agree__label">я согласен с правилами</label>
     </div>
 

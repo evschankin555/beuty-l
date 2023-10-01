@@ -16,7 +16,6 @@ class AppAsset extends AssetBundle
     {
         parent::init();
 
-        // Регистрация main.min.css
         $mainCssFile = 'css/main.min.css';
         $mainCssFilePath = $this->basePath . '/' . $mainCssFile;
         if (file_exists($mainCssFilePath)) {
@@ -26,7 +25,6 @@ class AppAsset extends AssetBundle
             $this->css[] = $mainCssFile;
         }
 
-        // Регистрация site.css
         $cssFile = 'css/site.css';
         $cssFilePath = $this->basePath . '/' . $cssFile;
         if (file_exists($cssFilePath)) {
@@ -36,8 +34,15 @@ class AppAsset extends AssetBundle
             $this->css[] = $cssFile;
         }
 
-        // Регистрация JavaScript-файлов
         $this->js[] = 'js/jquery.min.js';
-        $this->js[] = 'js/app.js';
+
+        $jsFile = 'js/app.js';
+        $jsFilePath = $this->basePath . '/' . $jsFile;
+        if (file_exists($jsFilePath)) {
+            $jsVersion = filemtime($jsFilePath);
+            $this->js[] = $jsFile . '?v=' . $jsVersion;
+        } else {
+            $this->js[] = $jsFile;
+        }
     }
 }
