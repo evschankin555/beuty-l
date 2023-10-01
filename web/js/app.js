@@ -59,19 +59,46 @@ class EmailPopupManager {
         $('#emailPopupBtn').on('click', (e) => {
             e.preventDefault();
 
-            // Показываем модальное окно
-            $('#emailPopup').fadeIn(500);
-            $('.js-overlay').fadeIn(500).css('opacity', '0.7');
+            const emailFormElement = document.querySelector("#buy .myform");
+            const emailInput = document.getElementById("email");
+
+            // Применяем reportValidity для валидации email
+            const isValid = emailFormElement.reportValidity();
+
+            if (!isValid) {
+                emailInput.focus();
+                return;
+            }
+
+            this.showSuccessPopup();
         });
     }
 
     initClose() {
         $('#emailCloseBtn').on('click', () => {
-            $('#emailPopup').fadeOut(500);
+            $('#buy').fadeOut(500);
             $('.js-overlay').fadeOut(500);
         });
     }
+
+    closePopupAndOverlay() {
+        $('#buy').fadeOut(500);
+        $('.js-overlay').fadeOut(500);
+    }
+
+    showSuccessPopup() {
+        this.closePopupAndOverlay();
+        $('#success').fadeIn(1500);
+        $('.js-overlay').fadeIn(1500).css('opacity', '0.7');
+    }
+
+    showMistakePopup() {
+        this.closePopupAndOverlay();
+        $('#mistake').fadeIn(1500);
+        $('.js-overlay').fadeIn(1500).css('opacity', '0.7');
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const popupManager = new PopupManager();
