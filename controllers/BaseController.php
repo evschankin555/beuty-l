@@ -79,5 +79,11 @@ class BaseController extends Controller
             return ['success' => false, 'error' => 'Error logout'];
         }
     }
+    public function actionAdminPanel()
+
+    {
+        $this->layout = 'admin';
+        return $this->render('adminPanel');
+    }
 
 }

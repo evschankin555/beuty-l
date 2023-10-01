@@ -11,6 +11,7 @@ return [
 
     'rules' => [
         '/' => '/base/home',
+        'admin-panel' => 'base/admin-panel',
 
         'login' => 'pages/login',
         'signup' => 'pages/signup',
