@@ -98,8 +98,37 @@ class EmailPopupManager {
         $('.js-overlay').fadeIn(1500).css('opacity', '0.7');
     }
 }
+class UserAgreementModal {
+    constructor() {
+        // Привязываем обработчик открытия модального окна к ссылке
+        const openUserAgreementLink = document.getElementById('openUserAgreement');
+        openUserAgreementLink.addEventListener('click', () => this.openModal());
+
+        const userAgreementModal = document.getElementById('userAgreementModal');
+        userAgreementModal.addEventListener('click', () => this.closeModal());
+
+        // Привязываем обработчик закрытия модального окна к кнопке внутри модального окна
+        const closeModalButton = document.getElementById('closeUserAgreementModal');
+        closeModalButton.addEventListener('click', () => this.closeModal());
+    }
+
+    openModal() {
+        const userAgreementModal = document.getElementById('userAgreementModal');
+        userAgreementModal.style.display = 'flex';
+    }
+
+    closeModal() {
+        const userAgreementModal = document.getElementById('userAgreementModal');
+        userAgreementModal.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const popupManager = new UserAgreementModal();
+});
 
 
 document.addEventListener('DOMContentLoaded', () => {
     const popupManager = new PopupManager();
+    const userAgreementModal = new UserAgreementModal();
 });

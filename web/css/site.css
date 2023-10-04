@@ -157,3 +157,70 @@ a.desc:after {
 .btn:hover {
     background: linear-gradient(91deg, #fff 0, rgb(255 255 255 / 10%) 102.4%);
 }
+
+#openUserAgreement{
+    color: #fff;
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+}
+
+.modal-content {
+    background: url(../images/dist/popup-bg.png) no-repeat right bottom, -webkit-linear-gradient(320deg, #eb95bc 66.9%, #fff 105.99%);
+    background: url(../images/dist/popup-bg.png) no-repeat right bottom, -moz-linear-gradient(320deg, #eb95bc 66.9%, #fff 105.99%);
+    background: url(../images/dist/popup-bg.png) no-repeat right bottom, -o-linear-gradient(320deg, #eb95bc 66.9%, #fff 105.99%);
+    background: url(../images/dist/popup-bg.png) no-repeat right bottom, linear-gradient(130deg, #eb95bc 66.9%, #fff 105.99%);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    color: #fff;
+    padding: 62px 40px;
+    max-width: calc(100% - 40px); /* 100% ширины минус 40 пикселей отступов */
+    height: 80vh; /* Фиксированная высота, например, 80% от высоты экрана */
+    overflow-y: auto;
+    -webkit-filter: drop-shadow(-12px 28px 13px rgba(0, 0, 0, .25));
+    filter: drop-shadow(-12px 28px 13px rgba(0, 0, 0, .25));
+    text-align: left;
+    scrollbar-color: #eb95bc #fff; /* Цвет полосы и фона скролла */
+    scrollbar-width: thin; /* Тонкая полоса прокрутки (скролла) */
+}
+
+/* Стили для полосы прокрутки (скролла) в Firefox */
+.modal-content::-webkit-scrollbar {
+    width: 8px; /* Ширина полосы прокрутки (скролла) */
+}
+
+/* Стили для ползунка скролла (скролла) в Firefox */
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: #eb95bc; /* Цвет полосы скролла */
+    border-radius: 4px; /* Скругленные углы для ползунка скролла */
+}
+
+/* Стили для фона скролла (скролла) в Firefox */
+.modal-content::-webkit-scrollbar-track {
+    background-color: #fff; /* Цвет фона скролла */
+}
+
+/* Стили для кнопки закрытия (по желанию) */
+#closeUserAgreementModal {
+    cursor: pointer;
+    height: 55px;
+    width: 150px;
+}
+
+h1{
+    font-size: 30px;
+    text-align: center;
+}
+h2{
+    font-size: 20px;
+}
