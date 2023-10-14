@@ -12,6 +12,7 @@ return [
     'rules' => [
         '/' => '/base/home',
         'admin-panel' => 'base/admin-panel',  // Для админ-панели
+        'create-payment' => 'base/create-payment',
         'login' => 'site/login',
         'logout' => 'site/logout',
         'contact' => 'site/contact',

@@ -3,19 +3,12 @@
 namespace app\controllers;
 
 use app\components\Common;
-use app\models\Category;
 use yii\base\InvalidConfigException;
 use yii\httpclient\Exception;
 use yii\web\Controller;
-use app\models\ContactForm;
-use app\models\SubmitFeed;
 use Yii;
 use app\models\User;
-use app\models\SourceList;
-use app\models\UploadForm;
-use yii\web\UploadedFile;
-use app\models\Images;
-use app\modules\SeoModule;
+use app\models\Payment;
 
 class BaseController extends Controller
 {
@@ -84,6 +77,29 @@ class BaseController extends Controller
     {
         $this->layout = 'admin';
         return $this->render('adminPanel');
+    }
+
+    public function actionCreatePayment()
+    {
+        Yii::$app->response->headers->set('Content-Type', 'application/json; charset=utf-8');
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $postEmail = Yii::$app->request->post('email');
+        $postTicketCount = Yii::$app->request->post('ticketCount');
+
+        // Выход из метода, если какие-то из данных не переданы
+        if ($postEmail === null || $postTicketCount === null) {
+            Yii::$app->response->data = ['success' => false, 'error' => 'Обязательные поля пустые.'];
+            return;
+        }
+
+        $payment = Payment::createPayment($postEmail, $postTicketCount);
+
+        if ($payment) {
+            Yii::$app->response->data = ['success' => true, 'paymentId' => $payment->id];
+        } else {
+            Yii::$app->response->data = ['success' => false, 'error' => 'Ошибка при создании заказа.'];
+        }
     }
 
 }

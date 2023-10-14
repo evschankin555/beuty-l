@@ -102,7 +102,7 @@ class EmailPopupManager {
 
         $.ajax({
             type: "POST",
-            url: "create_payment.php",
+            url: "/create-payment",
             data: { email: email, status: "начата оплата", ticketCount: selectedTicketCount },
             success: function (response) {
                 // Обработка успешного ответа от сервера
