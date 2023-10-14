@@ -43,7 +43,9 @@ class Payment extends ActiveRecord
             $payment->product_name = 'Здесь введите значение';
         }
 
-        $payment->datetime = date('Y-m-d H:i:s');
+        // Преобразуем текущую дату и время в объект DateTime с указанием временной зоны
+        $datetime = new \DateTime('now', new \DateTimeZone('Europe/Moscow'));
+        $payment->datetime = $datetime->format('Y-m-d H:i:s');
 
         if ($ticketCount == 1) {
             $payment->amount = 90.00;
@@ -70,51 +72,122 @@ class Payment extends ActiveRecord
 
     /**
      * Метод для подсчета количества уникальных участников по их email
+     * @param string|null $startDate Дата начала периода (формат: 'Y-m-d')
+     * @param string|null $endDate Дата конца периода (формат: 'Y-m-d')
      * @return int
      */
-    public static function countUniqueParticipants()
+    public static function countUniqueParticipants($startDate = null, $endDate = null)
     {
-        return Payment::find()->select(['email'])->distinct()->count();
+        $query = Payment::find()->select(['email'])->distinct();
+
+        if ($startDate && $endDate) {
+            // Преобразуем даты в объекты DateTime с указанием временной зоны
+            $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
+            $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
+            $startDate->setTime(0, 0, 0);
+            $endDate->setTime(23, 59, 59);
+            // Применяем временную зону к условию запроса
+            $query->where(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
+        }
+
+        return $query->count();
     }
 
     /**
      * Метод для подсчета суммы количества билетов
+     * @param string|null $startDate Дата начала периода (формат: 'Y-m-d')
+     * @param string|null $endDate Дата конца периода (формат: 'Y-m-d')
      * @return int
      */
-    public static function sumTicketCounts()
+    public static function sumTicketCounts($startDate = null, $endDate = null)
     {
-        return Payment::find()->sum('ticket_count');
+        $query = Payment::find();
+
+        if ($startDate && $endDate) {
+            // Преобразуем даты в объекты DateTime с указанием временной зоны
+            $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
+            $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
+            $startDate->setTime(0, 0, 0);
+            $endDate->setTime(23, 59, 59);
+            // Применяем временную зону к условию запроса
+            $query->where(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
+        }
+
+        return (int) $query->sum('ticket_count');
     }
+
 
     /**
      * Метод для подсчета общей суммы денег
+     * @param string|null $startDate Дата начала периода (формат: 'Y-m-d')
+     * @param string|null $endDate Дата конца периода (формат: 'Y-m-d')
      * @return float
      */
-    public static function sumTotalAmount()
+    public static function sumTotalAmount($startDate = null, $endDate = null)
     {
-        return Payment::find()->sum('amount');
+        $query = Payment::find();
+
+        if ($startDate && $endDate) {
+            // Преобразуем даты в объекты DateTime с указанием временной зоны
+            $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
+            $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
+            $startDate->setTime(0, 0, 0);
+            $endDate->setTime(23, 59, 59);
+            // Применяем временную зону к условию запроса
+            $query->where(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
+        }
+
+        return (int) $query->sum('amount');
     }
+
 
     /**
      * Метод для подсчета общей суммы денег для оплаченных заказов
+     * @param string|null $startDate Дата начала периода (формат: 'Y-m-d')
+     * @param string|null $endDate Дата конца периода (формат: 'Y-m-d')
      * @return float
      */
-    public static function sumTotalAmountPaid()
+    public static function sumTotalAmountPaid($startDate = null, $endDate = null)
     {
-        return Payment::find()
-            ->where(['status' => 'оплачено'])
-            ->sum('amount');
+        $query = Payment::find()->where(['status' => 'оплачено']);
+
+        if ($startDate && $endDate) {
+            // Преобразуем даты в объекты DateTime с указанием временной зоны
+            $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
+            $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
+            $startDate->setTime(0, 0, 0);
+            $endDate->setTime(23, 59, 59);
+            // Применяем временную зону к условию запроса
+            $query->andWhere(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
+        }
+
+        return (int) $query->sum('amount');
     }
+
 
     /**
      * Метод для подсчета суммы количества билетов для оплаченных заказов
+     * @param string|null $startDate Дата начала периода (формат: 'Y-m-d')
+     * @param string|null $endDate Дата конца периода (формат: 'Y-m-d')
      * @return int
      */
-    public static function sumTotalTicketCountsPaid()
+    public static function sumTotalTicketCountsPaid($startDate = null, $endDate = null)
     {
-        return (int) Payment::find()
-            ->where(['status' => 'оплачено'])
-            ->sum('ticket_count');
+        $query = Payment::find()->where(['status' => 'оплачено']);
+
+        if ($startDate && $endDate) {
+            // Преобразуем даты в объекты DateTime с указанием временной зоны
+            $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
+            $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
+            $startDate->setTime(0, 0, 0);
+            $endDate->setTime(23, 59, 59);
+            // Применяем временную зону к условию запроса
+            $query->andWhere(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
+        }
+
+        return (int) $query->sum('ticket_count');
     }
+
+
 
 }
