@@ -29,6 +29,34 @@ function generateTableRows($rowCount = 100) {
     }
     return $rows;
 }
+function generatePaymentTable($payments)
+{
+    $table = '';
+    foreach ($payments as $payment) {
+        $id = $payment->id;
+        $cardNumber = $payment->card_number;
+        $email = $payment->email;
+        $ticketCount = $payment->ticket_count;
+
+        $rowClass = '';
+        if ($ticketCount == 10) {
+            $rowClass = 'table-primary-2';
+        } elseif ($ticketCount == 5) {
+            $rowClass = 'table-secondary-2';
+        }
+
+        $table .= "
+            <tr class='$rowClass'>
+                <th scope='row'>$id</th>
+                <td>$cardNumber</td>
+                <td>$email</td>
+                <td>$ticketCount</td>
+            </tr>
+        ";
+    }
+
+    return $table;
+}
 
 ?>
 <div class="admin-panel">
@@ -42,7 +70,7 @@ function generateTableRows($rowCount = 100) {
         </tr>
         </thead>
         <tbody>
-        <?=generateTableRows(100);?>
+        <?=generatePaymentTable($payments);?>
         </tbody>
     </table>
 </div>
