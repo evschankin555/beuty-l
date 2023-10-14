@@ -730,14 +730,24 @@ body{
     margin-top: 120px;
     display: block;
     width: calc(100% - 40px);
+}
+.wrap .container.main-container .admin-panel .table-container{
+    overflow-y: auto;
     scrollbar-color: #eb95bcdd #ffffdd;
     scrollbar-width: thin;
     max-height: 600px;
-    overflow-y: auto;
 }
 
-.wrap .container.main-container .admin-panel th {
+.wrap .container.main-container .admin-panel thead th{
+    background: linear-gradient(131deg, #ac577e -44.83%, #ff8dc1 101.32%);
+    color: #fff;
+    border: none;
+}
+.wrap .container.main-container .admin-panel th, td {
     text-align: center;
+    vertical-align: middle;
+
+    border: 1px solid #fffdd6;
 }
 .wrap .container.main-container .admin-panel tr:first-child th:nth-child(4),
 .wrap .container.main-container .admin-panel tbody td:nth-child(4) {
@@ -751,15 +761,44 @@ body{
     --bs-table-bg: rgb(253 147 195);
 }
 
-.wrap .container.main-container .admin-panel::-webkit-scrollbar {
+.wrap .container.main-container .admin-panel .table-container::-webkit-scrollbar {
     width: 8px;
 }
 
-.wrap .container.main-container .admin-panel::-webkit-scrollbar-thumb {
+.wrap .container.main-container .admin-panel .table-container::-webkit-scrollbar-thumb {
     background-color: #eb95bc;
     border-radius: 4px;
 }
 
-.wrap .container.main-container .admin-panel::-webkit-scrollbar-track {
+.wrap .container.main-container .admin-panel .table-container::-webkit-scrollbar-track {
     background-color: #fff;
+}
+.statistic-block{
+    text-align: center;
+}
+.statistic-block .card.border-primary .card-header{
+    height: 80px;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    background: linear-gradient(131deg, #ac577e -44.83%, #ff8dc1 101.32%);
+    color: #fff;
+}
+.statistic-block .card-body{
+    background: left -100px top -30px, linear-gradient(130deg, #eb95bc 26.9%, #fff 185.99%);
+}
+
+.admin-btn {
+    display: inline-block;
+    background: rgba(255, 255, 255, .3);
+    border: 1px solid #fffdd6;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 15px;
+    margin-right: 5px;
+}
+.admin-btn:hover {
+    background: rgba(255, 255, 255, .5);
 }

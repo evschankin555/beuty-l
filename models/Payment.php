@@ -68,5 +68,53 @@ class Payment extends ActiveRecord
         return null;
     }
 
+    /**
+     * Метод для подсчета количества уникальных участников по их email
+     * @return int
+     */
+    public static function countUniqueParticipants()
+    {
+        return Payment::find()->select(['email'])->distinct()->count();
+    }
+
+    /**
+     * Метод для подсчета суммы количества билетов
+     * @return int
+     */
+    public static function sumTicketCounts()
+    {
+        return Payment::find()->sum('ticket_count');
+    }
+
+    /**
+     * Метод для подсчета общей суммы денег
+     * @return float
+     */
+    public static function sumTotalAmount()
+    {
+        return Payment::find()->sum('amount');
+    }
+
+    /**
+     * Метод для подсчета общей суммы денег для оплаченных заказов
+     * @return float
+     */
+    public static function sumTotalAmountPaid()
+    {
+        return Payment::find()
+            ->where(['status' => 'оплачено'])
+            ->sum('amount');
+    }
+
+    /**
+     * Метод для подсчета суммы количества билетов для оплаченных заказов
+     * @return int
+     */
+    public static function sumTotalTicketCountsPaid()
+    {
+        return (int) Payment::find()
+            ->where(['status' => 'оплачено'])
+            ->sum('ticket_count');
+    }
 
 }

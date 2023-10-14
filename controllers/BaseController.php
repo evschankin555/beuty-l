@@ -78,10 +78,21 @@ class BaseController extends Controller
         $this->layout = 'admin';
 
         $payments = Payment::find()->all();
+        $uniqueParticipants = Payment::countUniqueParticipants();
+        $totalTicketCount = Payment::sumTicketCounts();
+        $totalTicketCountPaid = Payment::sumTotalTicketCountsPaid();
+        $totalAmount = Payment::sumTotalAmount();
+        $totalAmountPaid = Payment::sumTotalAmountPaid();
 
-        return $this->render('adminPanel', ['payments' => $payments]);
+        return $this->render('adminPanel', [
+            'payments' => $payments,
+            'uniqueParticipants' => $uniqueParticipants,
+            'totalTicketCount' => $totalTicketCount,
+            'totalTicketCountPaid' => $totalTicketCountPaid,
+            'totalAmount' => $totalAmount,
+            'totalAmountPaid' => $totalAmountPaid,
+        ]);
     }
-
     public function actionCreatePayment()
     {
         Yii::$app->response->headers->set('Content-Type', 'application/json; charset=utf-8');
