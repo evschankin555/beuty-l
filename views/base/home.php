@@ -21,21 +21,21 @@ use yii\bootstrap5\Button;
         <div class="tickets__title">выберите количество билетов</div>
             <div class="tickets__grid">
                 <div class="tickets__item">
-                    <div class="tickets__count">
+                    <div class="tickets__count" data-ticket="1">
                         <img src="images/dist/ticket-1.svg" alt="">
                         <!-- <span>1</span> -->
                     </div>
                     <div class="tickets__price">90 руб</div>
                 </div>
                 <div class="tickets__item active">
-                    <div class="tickets__count">
+                    <div class="tickets__count" data-ticket="5">
                         <img src="images/dist/ticket-2.svg" alt="">
                         <!-- <span>5</span> -->
                     </div>
                     <div class="tickets__price">450 руб</div>
                 </div>
                 <div class="tickets__item">
-                    <div class="tickets__count">
+                    <div class="tickets__count" data-ticket="10">
                         <img src="images/dist/ticket-3.svg" alt="">
                         <!-- <span>10</span> -->
                     </div>

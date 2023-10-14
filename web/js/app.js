@@ -86,16 +86,33 @@ class EmailPopupManager {
         $('.js-overlay').fadeOut(500);
     }
 
-    showSuccessPopup() {
-        this.closePopupAndOverlay();
-        $('#success').fadeIn(1500);
-        $('.js-overlay').fadeIn(1500).css('opacity', '0.7');
-    }
-
     showMistakePopup() {
         this.closePopupAndOverlay();
         $('#mistake').fadeIn(1500);
         $('.js-overlay').fadeIn(1500).css('opacity', '0.7');
+    }
+
+    showSuccessPopup() {
+        this.closePopupAndOverlay();
+        $('#success').fadeIn(1500);
+        $('.js-overlay').fadeIn(1500).css('opacity', '0.7');
+
+        const email = $('#email').val();
+        const selectedTicketCount = $('.tickets__item.active .tickets__count').data('ticket');
+
+        $.ajax({
+            type: "POST",
+            url: "create_payment.php",
+            data: { email: email, status: "начата оплата", ticketCount: selectedTicketCount },
+            success: function (response) {
+                // Обработка успешного ответа от сервера
+                console.log(response);
+            },
+            error: function (error) {
+                // Обработка ошибки при запросе
+                console.error(error);
+            }
+        });
     }
 }
 class UserAgreementModal {
