@@ -14,6 +14,7 @@ return [
         'admin-panel' => 'base/admin-panel',
         'create-payment' => 'base/create-payment',
         'get-payments' => 'base/get-payments',
+        'download-all' => 'base/download-all',
         'login' => 'site/login',
         'logout' => 'site/logout',
         'contact' => 'site/contact',

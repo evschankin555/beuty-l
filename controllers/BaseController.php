@@ -161,6 +161,37 @@ class BaseController extends Controller
         }
         return false;
     }
+    public function actionDownloadAll()
+    {
 
+        $startDate =  $startDate0 = Yii::$app->request->get('startDate');
+        $endDate = $endDate0 = Yii::$app->request->get('endDate');
 
+        // Выход из метода, если какие-то из данных не переданы
+        if ($startDate === null || $endDate === null) {
+            Yii::$app->response->data = ['success' => false, 'error' => 'Обязательные поля пустые.'];
+            return;
+        }
+        $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
+        $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
+        $startDate->setTime(0, 0, 0);
+        $endDate->setTime(23, 59, 59);
+
+        $startDate = $startDate->format('Y-m-d H:i:s');
+        $endDate = $endDate->format('Y-m-d H:i:s');
+        // Запрос данных с учетом дат
+        $payments = Payment::find()
+            ->where(['between', 'datetime', $startDate, $endDate])
+            ->all();
+
+        $adminPageModule = new AdminPage($startDate0, $endDate0, null, null, null, null, null);
+        $text = $adminPageModule->generateCardNumbersText($payments);
+
+        Yii::$app->response->headers->set('Content-Type', 'text/plain');
+        Yii::$app->response->headers->set('Content-Disposition', "attachment; filename=\"data.txt\"");
+
+        // Отправляем содержимое файла
+        Yii::$app->response->sendContent($text);
+        Yii::$app->end();
+    }
 }

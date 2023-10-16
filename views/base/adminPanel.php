@@ -90,5 +90,31 @@ $html = $adminPageModule->generateAdminCards();
         // Отправляем запрос
         xhr.send();
     }
+    document.addEventListener('DOMContentLoaded', function () {
+        const downloadButton = document.querySelector('.admin-btn');
+
+        downloadButton.addEventListener('click', function () {
+            // Получаем значения выбранных дат
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+
+            // Формируем имя файла с датами
+            const fileName = `Все с ${startDate} по ${endDate}.txt`;
+
+            // Формируем URL для скачивания
+            const url = `/download-all?startDate=${startDate}&endDate=${endDate}`;
+
+            // Создаем скрытую ссылку для скачивания
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = fileName;
+
+            // Автоматически кликаем по ссылке для скачивания
+            downloadLink.click();
+        });
+    });
+
 
 </script>

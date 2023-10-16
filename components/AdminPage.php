@@ -170,4 +170,21 @@ class AdminPage
     </div>';
         return $html;
     }
+    public function generateCardNumbersText($payments)
+    {
+        $text = '';
+
+        foreach ($payments as $payment) {
+            $cardNumber = $payment->card_number;
+            $ticketCount = $payment->ticket_count;
+
+            // Добавляем номер карты и количество билетов в текст
+            for ($i = 0; $i < $ticketCount; $i++) {
+                $text .= "$cardNumber\n";
+            }
+        }
+
+        return $text;
+    }
+
 }
