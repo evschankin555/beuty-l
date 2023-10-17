@@ -163,35 +163,25 @@ class BaseController extends Controller
     }
     public function actionDownloadAll()
     {
+        Yii::$app->response->headers->set('Content-Type', 'text/plain; charset=utf-8');
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
 
-        $startDate =  $startDate0 = Yii::$app->request->get('startDate');
-        $endDate = $endDate0 = Yii::$app->request->get('endDate');
-
-        // Выход из метода, если какие-то из данных не переданы
-        if ($startDate === null || $endDate === null) {
-            Yii::$app->response->data = ['success' => false, 'error' => 'Обязательные поля пустые.'];
-            return;
-        }
+        $startDate = Yii::$app->request->post('startDate');
+        $endDate = Yii::$app->request->post('endDate');
+        $buttonId = Yii::$app->request->post('buttonId');
         $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
         $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
         $startDate->setTime(0, 0, 0);
         $endDate->setTime(23, 59, 59);
 
-        $startDate = $startDate->format('Y-m-d H:i:s');
-        $endDate = $endDate->format('Y-m-d H:i:s');
-        // Запрос данных с учетом дат
         $payments = Payment::find()
-            ->where(['between', 'datetime', $startDate, $endDate])
+            ->where(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')])
             ->all();
 
-        $adminPageModule = new AdminPage($startDate0, $endDate0, null, null, null, null, null);
-        $text = $adminPageModule->generateCardNumbersText($payments);
+        $adminPageModule = new AdminPage($startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s'), null, null, null, null, null);
+        $textData = $adminPageModule->generateCardNumbersText($payments, $buttonId);
 
-        Yii::$app->response->headers->set('Content-Type', 'text/plain');
-        Yii::$app->response->headers->set('Content-Disposition', "attachment; filename=\"data.txt\"");
-
-        // Отправляем содержимое файла
-        Yii::$app->response->sendContent($text);
-        Yii::$app->end();
+        Yii::$app->response->content = $textData;
     }
+
 }

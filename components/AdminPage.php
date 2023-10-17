@@ -170,13 +170,17 @@ class AdminPage
     </div>';
         return $html;
     }
-    public function generateCardNumbersText($payments)
+    public function generateCardNumbersText($payments, $buttonId)
     {
         $text = '';
 
         foreach ($payments as $payment) {
             $cardNumber = $payment->card_number;
             $ticketCount = $payment->ticket_count;
+
+            if ($buttonId == 'download-10' && $ticketCount != 10) {
+                continue; // Пропускаем записи, если кнопка 'download-10' и $ticketCount не равен 10
+            }
 
             // Добавляем номер карты и количество билетов в текст
             for ($i = 0; $i < $ticketCount; $i++) {

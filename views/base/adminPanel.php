@@ -28,8 +28,8 @@ $html = $adminPageModule->generateAdminCards();
     <div id="statistics-one">
         <?=$adminPageModule->generateAdminCards()?>
     </div>
-    <button type="button" class="admin-btn">Скачать всё</button>
-    <button type="button" class="admin-btn">Скачать от 10 билетов</button>
+    <button type="button" class="admin-btn" id="download-all">Скачать всё</button>
+    <button type="button" class="admin-btn" id="download-10">Скачать от 10 билетов</button>
 </div>
 
 
@@ -90,29 +90,53 @@ $html = $adminPageModule->generateAdminCards();
         // Отправляем запрос
         xhr.send();
     }
+    function sendDownloadRequest(buttonId) {
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const startDate = startDateInput.value;
+        const endDate = endDateInput.value;
+
+        const xhr = new XMLHttpRequest();
+
+        const url = '/download-all';
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const text = xhr.responseText;
+                const blob = new Blob([text], { type: 'text/plain' });
+                const blobUrl = URL.createObjectURL(blob);
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = blobUrl;
+                if (buttonId == 'download-all'){
+                    downloadLink.download = `Все с ${startDate} по ${endDate}.txt`;
+                }else{
+                    downloadLink.download = `От 10 с ${startDate} по ${endDate}.txt`;
+                }
+
+                downloadLink.click();
+                URL.revokeObjectURL(blobUrl);
+            } else {
+                console.error('Error:', xhr.status);
+            }
+        };
+
+        const params = `startDate=${startDate}&endDate=${endDate}&buttonId=${buttonId}`;
+        xhr.send(params);
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
-        const downloadButton = document.querySelector('.admin-btn');
+        const downloadAll = document.querySelector('#download-all');
+        const download10 = document.querySelector('#download-10');
 
-        downloadButton.addEventListener('click', function () {
-            // Получаем значения выбранных дат
-            const startDateInput = document.getElementById('startDate');
-            const endDateInput = document.getElementById('endDate');
-            const startDate = startDateInput.value;
-            const endDate = endDateInput.value;
+        downloadAll.addEventListener('click', function () {
+            sendDownloadRequest('download-all');
+        });
 
-            // Формируем имя файла с датами
-            const fileName = `Все с ${startDate} по ${endDate}.txt`;
-
-            // Формируем URL для скачивания
-            const url = `/download-all?startDate=${startDate}&endDate=${endDate}`;
-
-            // Создаем скрытую ссылку для скачивания
-            const downloadLink = document.createElement('a');
-            downloadLink.href = url;
-            downloadLink.download = fileName;
-
-            // Автоматически кликаем по ссылке для скачивания
-            downloadLink.click();
+        download10.addEventListener('click', function () {
+            sendDownloadRequest('download-10');
         });
     });
 
