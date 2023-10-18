@@ -11,6 +11,7 @@ return [
 
     'rules' => [
         '/' => '/base/home',
+        'old' => '/base/old',
         'admin-panel' => 'base/admin-panel',
         'create-payment' => 'base/create-payment',
         'get-payments' => 'base/get-payments',

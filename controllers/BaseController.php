@@ -31,6 +31,11 @@ class BaseController extends Controller
         $this->layout = 'beauty';
         return $this->render('home');
     }
+    public function actionOld()
+    {
+        $this->layout = 'beauty';
+        return $this->render('old');
+    }
 
 
     public function actionAuth()
