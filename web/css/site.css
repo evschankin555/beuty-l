@@ -141,6 +141,7 @@ a.desc:after {
 }
 .agree{
     position: relative;
+    margin-top: 0;
 }
 .tickets__wrap {
     background: linear-gradient(131deg, #FFF -44.83%, rgba(235, 214, 187, 0.00) 101.32%);
@@ -265,4 +266,41 @@ h2{
     font-style: normal;
     font-weight: 400;
     line-height: 20px;
+}
+.info-product{
+    display: inline-block;
+    margin: 40px 0 30px 0;
+    width: 100%;
+}
+.info-product #btn-info{
+    border-radius: 10px;
+    background: linear-gradient(91deg, #EDD2AF 0%, rgba(235, 214, 187, 0.00) 102.4%);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #796143;
+    text-align: center;
+    font-family: Forum;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    text-decoration-line: underline;
+    width: 300px;
+}
+.info-product #btn-info:hover{
+    background: linear-gradient(91deg, #ffdeb3 0%, rgba(235, 214, 187, 0.00) 102.4%);
+}
+.info-product #btn-info:active{
+    background: linear-gradient(91deg, #EDD2AF 0%, rgba(235, 214, 187, 0.00) 102.4%);
+}
+.tickets__count:hover, .tickets__item.active > .tickets__count{
+    background: linear-gradient(91deg, #f9e1c2 0, rgba(235, 214, 187, 0) 102.4%);
+}
+.mt-1{
+    margin-top: 1rem;
+}
+#infoProductModal .modal-content p{
+    font-size: 16px;
+}
+#infoProductModal .modal-content{
+    height: 70vh;
 }

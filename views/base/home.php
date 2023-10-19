@@ -53,6 +53,9 @@ use yii\bootstrap5\Button;
 
             <p><span>чек-лист № 3</span> содержит в себе 3 гардеробные капсулы из набора одежды, обуви и аксессуаров!</p>
         </div>
+        <div class="info-product">
+            <button type="button" id="btn-info" data-link="info" class="btn">Подробная информация<br /> о продукте</button>
+        </div>
         <div class="agree">
             <input type="checkbox" id="agree1" required>
             <label for="agree1" class="agree__label">я согласен с правилами</label>

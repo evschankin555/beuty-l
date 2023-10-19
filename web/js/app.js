@@ -155,13 +155,48 @@ class UserAgreementModal {
         userAgreementModal.style.display = 'none';
     }
 }
+    class InfoProductModal {
+    constructor() {
+        this.openInfoProductLink = document.getElementById('btn-info');
+        this.infoProductModalElement = document.getElementById('infoProductModal');
+        this.closeInfoProductButton = document.getElementById('closeInfoProductModal');
 
-document.addEventListener('DOMContentLoaded', () => {
-    const popupManager = new UserAgreementModal();
-});
+        this.checkElementExistence(this.openInfoProductLink, 'openInfoProductLink');
+        this.checkElementExistence(this.infoProductModalElement, 'infoProductModalElement');
+        this.checkElementExistence(this.closeInfoProductButton, 'closeInfoProductButton');
 
+        if (this.openInfoProductLink) {
+            this.openInfoProductLink.addEventListener('click', () => this.openModal());
+        }
+        if (this.infoProductModalElement) {
+            this.infoProductModalElement.addEventListener('click', () => this.closeModal());
+        }
+        if (this.closeInfoProductButton) {
+            this.closeInfoProductButton.addEventListener('click', () => this.closeModal());
+        }
+    }
+
+    checkElementExistence(element, elementName) {
+        if (!element) {
+            console.warn(`Element ${elementName} not found on the page.`);
+        }
+    }
+
+    openModal() {
+        if (this.infoProductModalElement) {
+            this.infoProductModalElement.style.display = 'flex';
+        }
+    }
+
+    closeModal() {
+        if (this.infoProductModalElement) {
+            this.infoProductModalElement.style.display = 'none';
+        }
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const popupManager = new PopupManager();
     const userAgreementModal = new UserAgreementModal();
+    const infoProductModal = new InfoProductModal();
 });
