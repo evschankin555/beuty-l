@@ -189,4 +189,19 @@ class BaseController extends Controller
         Yii::$app->response->content = $textData;
     }
 
+    public function actionBuy1()
+    {
+        $this->layout = 'buy';
+        return $this->render('buy');
+    }
+    public function actionBuy2()
+    {
+        $this->layout = 'buy';
+        return $this->render('buy');
+    }
+    public function actionBuy3()
+    {
+        $this->layout = 'buy';
+        return $this->render('buy');
+    }
 }

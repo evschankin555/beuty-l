@@ -1,10 +1,26 @@
 class PopupManager {
     constructor() {
         this.initPopup();
+        this.initPageRedirect();
         this.initOverlay();
         this.initClose();
         this.initTicketSelector('.tickets__item');
         this.emailPopupManager = new EmailPopupManager();
+    }
+    initPageRedirect() {
+        $('#btn-pay').on('click', (e) => {
+            e.preventDefault();
+            const formElement = document.getElementById("ticketsForm");
+            const agreeCheckbox = $('#agree1')[0];
+            const valid = formElement.reportValidity();
+
+            if (!valid) {
+                agreeCheckbox.focus();
+                return;
+            }
+            const selectedTicketId = $('.tickets__item.active .tickets__count').data('ticket-id');
+            window.location.href = `/buy${selectedTicketId}`;
+        });
     }
 
     initPopup() {
