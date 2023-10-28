@@ -155,15 +155,11 @@ class UserAgreementModal {
         userAgreementModal.style.display = 'none';
     }
 }
-    class InfoProductModal {
+class InfoProductModal {
     constructor() {
         this.openInfoProductLink = document.getElementById('btn-info');
         this.infoProductModalElement = document.getElementById('infoProductModal');
         this.closeInfoProductButton = document.getElementById('closeInfoProductModal');
-
-        this.checkElementExistence(this.openInfoProductLink, 'openInfoProductLink');
-        this.checkElementExistence(this.infoProductModalElement, 'infoProductModalElement');
-        this.checkElementExistence(this.closeInfoProductButton, 'closeInfoProductButton');
 
         if (this.openInfoProductLink) {
             this.openInfoProductLink.addEventListener('click', () => this.openModal());
@@ -173,12 +169,6 @@ class UserAgreementModal {
         }
         if (this.closeInfoProductButton) {
             this.closeInfoProductButton.addEventListener('click', () => this.closeModal());
-        }
-    }
-
-    checkElementExistence(element, elementName) {
-        if (!element) {
-            console.warn(`Element ${elementName} not found on the page.`);
         }
     }
 

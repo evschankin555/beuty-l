@@ -303,4 +303,5 @@ h2{
 }
 #infoProductModal .modal-content{
     height: 70vh;
+    max-width: 600px;
 }
