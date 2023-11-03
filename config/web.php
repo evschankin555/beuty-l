@@ -43,6 +43,11 @@ $config = [
         ],
         'db' => $db,
         'urlManager' => require(__DIR__ . '/__urlManager.php'),
+        'TinkoffPayment' => [
+            'class' => 'app\components\TinkoffPayment',
+            'terminalKey' => '1698051347490DEMO',
+            'secretKey' => 'kdn3vhd70k7s9xmj',
+        ],
 
         /*
         'urlManager' => [

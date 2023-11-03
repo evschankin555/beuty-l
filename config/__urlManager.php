@@ -15,6 +15,8 @@ return [
         'buy1' => '/base/buy1',
         'buy2' => '/base/buy2',
         'buy3' => '/base/buy3',
+        'pay' => '/base/pay',
+        'create-pay' => '/base/create-pay',
         'admin-panel' => 'base/admin-panel',
         'create-payment' => 'base/create-payment',
         'get-payments' => 'base/get-payments',
