@@ -27,5 +27,8 @@ return [
         'about' => 'site/about',
         'base' => 'pages/base',
         '404' => 'site/error',
+        'payment/notification' => 'payment/notification',
+        'payment/success' => 'payment/success',
+        'payment/fail' => 'payment/fail',
     ],
 ];

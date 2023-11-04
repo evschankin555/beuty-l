@@ -21,6 +21,7 @@ class Payment extends ActiveRecord
             ['datetime', 'datetime', 'format' => 'yyyy-MM-dd HH:mm:ss'],
             ['amount', 'number'],
             ['status', 'in', 'range' => ['начата оплата', 'оплачено', 'отменено']],
+            ['payment_id', 'integer'],
         ];
     }
 

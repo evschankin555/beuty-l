@@ -259,7 +259,7 @@ class BaseController extends Controller
         if ($payment) {
             Yii::$app->response->data = ['success' => true, 'paymentId' => $payment->id];
 
-            $paymentResponse = $tinkoffPay->createPayment($payment->id, $amount, $checklistDescription, $postEmail, $items);
+            $paymentResponse = $tinkoffPay->createPayment($payment, $amount, $checklistDescription, $postEmail, $items);
 
             if ($paymentResponse) {
                 return $this->redirect($paymentResponse);

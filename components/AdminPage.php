@@ -91,6 +91,7 @@ class AdminPage
             $amount = $payment->amount;
             $datetime = $payment->datetime;
             $status = $payment->status;
+            $payment_id = $payment->payment_id;
 
             $rowClass = '';
             if ($ticketCount == 10) {
@@ -115,7 +116,7 @@ class AdminPage
 
             $table .= "
         <tr class='$rowClass'>
-            <th scope='row' title='" . $datetime->format('Y-m-d H:i:s') . "'>$id</th>
+            <th scope='row' title='" . $datetime->format('Y-m-d H:i:s') . " payment_id:" . $payment_id . "'>$id</th>
             <td title='$status'>$statusEmoji $cardNumber</td>
             <td>$email</td>
             <td title='$amount ₽'>$ticketCount</td>
