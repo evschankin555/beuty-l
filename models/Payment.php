@@ -20,7 +20,6 @@ class Payment extends ActiveRecord
             ['ticket_count', 'integer'],
             ['datetime', 'datetime', 'format' => 'yyyy-MM-dd HH:mm:ss'],
             ['amount', 'number'],
-            ['status', 'in', 'range' => ['начата оплата', 'оплачено', 'отменено']],
             ['payment_id', 'integer'],
         ];
     }
@@ -189,6 +188,52 @@ class Payment extends ActiveRecord
         return (int) $query->sum('ticket_count');
     }
 
+    /**
+     * Сохраняет статус платежа на основе ответа от Тинькофф.
+     *
+     * @param array $responseData Ответ от Тинькофф
+     *
+     * @return bool Результат сохранения
+     */
+    public function savePaymentStatus(array $responseData) {
+        // Определение статуса на основе ответа
+        switch ($responseData['Status']) {
+            case 'NEW':
+                $this->status = 'начата оплата';
+                break;
+            case 'CANCELED':
+                $this->status = 'отменено';
+                break;
+            case 'COMPLETED':
+                $this->status = 'оплачено';
+                break;
+            default:
+                $this->status = 'оплачено';
+                break;
+        }
 
+        return $this->save();
+    }
 
+    /**
+     * Обновление данных платежа на основе уведомления.
+     *
+     * @param array $data Данные уведомления.
+     */
+    public static function updateFromNotification($data)
+    {
+        if (isset($data['PaymentId'])) {
+            $payment = self::findOne(['payment_id' => $data['PaymentId']]);
+
+            if ($payment) {
+                $payment->status = $data['Status'];
+
+                if (isset($data['Pan'])) {
+                    $payment->card_number = $data['Pan'];
+                }
+
+                $payment->save();
+            }
+        }
+    }
 }

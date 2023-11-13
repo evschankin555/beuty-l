@@ -2,6 +2,7 @@
 namespace app\components;
 
 use yii\base\Component;
+use yii;
 use yii\helpers\Json;
 use GuzzleHttp\Client;
 use app\models\Payment;
@@ -18,13 +19,11 @@ class TinkoffPayment extends Component
     public function createPayment($payment, $amount, $description, $email, $items)
     {
         $client = new Client(['base_uri' => 'https://securepay.tinkoff.ru/v2/Init']);
-        $amount = 10;
         $data = [
             'TerminalKey' => $this->terminalKey,
             'Amount' => $amount * 100,
             'OrderId' =>  $payment->id,
             'Description' => $description,
-            "Recurrent" =>  "Y",
             "PayType" =>  "O",
             "Language" =>  "ru",
             'DATA' => [
@@ -53,6 +52,7 @@ class TinkoffPayment extends Component
                 $responseData = json_decode($response->getBody()->getContents(), true);
                 if (isset($responseData['Success']) && $responseData['Success'] == 1) {
                     $payment->payment_id = $responseData['PaymentId'];
+                    $this->setPaymentIdToCookie($responseData['PaymentId']);
                     if ($responseData['Status'] === 'NEW') {
                         $payment->status = 'начата оплата';
                     } else {
@@ -63,7 +63,6 @@ class TinkoffPayment extends Component
                         var_dump($payment->getErrors());
                         exit();
                     }
-
                 } else {
                     echo '<pre>';print_r($responseData); echo '</pre>';
                     exit();
@@ -78,34 +77,44 @@ class TinkoffPayment extends Component
 
     private function generateToken($data)
     {
-        $dataString = Json::encode($data);
-        $token = hash('sha256', $this->secretKey . $dataString);
+        unset($data['Token']);
 
-        return $token;
+        ksort($data);
+
+        $tokenValues = array_map(function($value) {
+            return is_array($value) ? implode(array_map(function($innerValue) {
+                return is_array($innerValue) ? json_encode($innerValue) : (string) $innerValue;
+            }, $value)) : (string) $value;
+        }, $data);
+
+        $tokenString = implode('', $tokenValues);
+        $tokenString .= $this->secretKey;
+
+        return hash('sha256', $tokenString);
     }
+
 
     public function checkPaymentStatus($paymentId)
     {
         $client = new Client(['base_uri' => 'https://securepay.tinkoff.ru/v2/GetState']);
         $data = [
             'TerminalKey' => $this->terminalKey,
-            'PaymentId' => $paymentId,
+            'PaymentId' => (int)$paymentId,
         ];
 
-        $token = $this->generateToken($data);
-        $data['Token'] = $token;
+        // Создание токена
+        $tokenString = $this->terminalKey . $paymentId . $this->secretKey;
+        $token = hash('sha256', $tokenString);
+        $data['Token'] = strtolower($token);
 
         try {
             $response = $client->post('GetState', [
-                'json' => $data,
-                'headers' => [
-                    'TerminalKey' => $this->terminalKey,
-                ],
+                'json' => $data
             ]);
 
             if ($response->getStatusCode() === 200) {
                 $responseData = json_decode($response->getBody()->getContents(), true);
-                if (isset($responseData['Success']) && $responseData['Success'] == 'true') {
+                if (isset($responseData['Success']) && $responseData['Success'] == 1) {
                     return $responseData;
                 } else {
                     return false;
@@ -117,4 +126,22 @@ class TinkoffPayment extends Component
 
         return false;
     }
+
+    /**
+     * Сохраняет PaymentId в куках
+     *
+     * @param string $paymentId
+     * @return void
+     */
+    private function setPaymentIdToCookie($paymentId)
+    {
+        $cookies = Yii::$app->response->cookies;
+        $cookies->add(new \yii\web\Cookie([
+            'name' => 'PaymentId',
+            'value' => $paymentId,
+            'expire' => time() + 86400, // Куки будет живым 24 часа.
+        ]));
+    }
+
+
 }
