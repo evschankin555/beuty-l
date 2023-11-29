@@ -109,4 +109,15 @@ class PaymentController extends Controller
 
         return $this->render('fail');
     }
+
+    /**
+     * Действие для установки статуса всех платежей как 'hidden'.
+     */
+    public function actionHideAllPayments()
+    {
+        Payment::hideAllPayments();
+
+        return "All payments have been set to hidden successfully";
+    }
+
 }

@@ -30,5 +30,6 @@ return [
         'payment/notification' => 'payment/notification',
         'payment/success' => 'payment/success',
         'payment/fail' => 'payment/fail',
+        'payment/hide-all' => 'payment/hide-all-payments',
     ],
 ];

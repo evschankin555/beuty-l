@@ -78,16 +78,16 @@ class Payment extends ActiveRecord
      */
     public static function countUniqueParticipants($startDate = null, $endDate = null)
     {
-        $query = Payment::find()->select(['email'])->distinct();
+        $query = Payment::find()->select(['email'])->distinct()
+            ->where(['<>', 'status', 'hidden'])
+            ->andWhere(['=', 'status', 'CONFIRMED']);
 
         if ($startDate && $endDate) {
-            // Преобразуем даты в объекты DateTime с указанием временной зоны
             $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
             $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
             $startDate->setTime(0, 0, 0);
             $endDate->setTime(23, 59, 59);
-            // Применяем временную зону к условию запроса
-            $query->where(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
+            $query->andWhere(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
         }
 
         return $query->count();
@@ -101,18 +101,17 @@ class Payment extends ActiveRecord
      */
     public static function sumTicketCounts($startDate = null, $endDate = null)
     {
-        $query = Payment::find();
+        $query = Payment::find()->where(['<>', 'status', 'hidden'])
+            ->andWhere(['=', 'status', 'CONFIRMED']);
 
         if ($startDate && $endDate) {
-            // Преобразуем даты в объекты DateTime с указанием временной зоны
             $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
             $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
             $startDate->setTime(0, 0, 0);
             $endDate->setTime(23, 59, 59);
-            // Применяем временную зону к условию запроса
-            $query->where(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
+            $query->andWhere(['between', 'datetime', $startDate->format('Y-m-d H:i:s'),
+                $endDate->format('Y-m-d H:i:s')]);
         }
-
         return (int) $query->sum('ticket_count');
     }
 
@@ -125,16 +124,15 @@ class Payment extends ActiveRecord
      */
     public static function sumTotalAmount($startDate = null, $endDate = null)
     {
-        $query = Payment::find();
+        $query = Payment::find()->where(['<>', 'status', 'hidden'])
+            ->andWhere(['=', 'status', 'CONFIRMED']);
 
         if ($startDate && $endDate) {
-            // Преобразуем даты в объекты DateTime с указанием временной зоны
             $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
             $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
             $startDate->setTime(0, 0, 0);
             $endDate->setTime(23, 59, 59);
-            // Применяем временную зону к условию запроса
-            $query->where(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
+            $query->andWhere(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
         }
 
         return (int) $query->sum('amount');
@@ -149,15 +147,14 @@ class Payment extends ActiveRecord
      */
     public static function sumTotalAmountPaid($startDate = null, $endDate = null)
     {
-        $query = Payment::find()->where(['status' => 'оплачено']);
+        $query = Payment::find()->where(['<>', 'status', 'hidden'])
+            ->andWhere(['=', 'status', 'CONFIRMED']);
 
         if ($startDate && $endDate) {
-            // Преобразуем даты в объекты DateTime с указанием временной зоны
             $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
             $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
             $startDate->setTime(0, 0, 0);
             $endDate->setTime(23, 59, 59);
-            // Применяем временную зону к условию запроса
             $query->andWhere(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
         }
 
@@ -173,15 +170,14 @@ class Payment extends ActiveRecord
      */
     public static function sumTotalTicketCountsPaid($startDate = null, $endDate = null)
     {
-        $query = Payment::find()->where(['status' => 'оплачено']);
+        $query = Payment::find()->where(['<>', 'status', 'hidden'])
+            ->andWhere(['=', 'status', 'CONFIRMED']);
 
         if ($startDate && $endDate) {
-            // Преобразуем даты в объекты DateTime с указанием временной зоны
             $startDate = new \DateTime($startDate, new \DateTimeZone('Europe/Moscow'));
             $endDate = new \DateTime($endDate, new \DateTimeZone('Europe/Moscow'));
             $startDate->setTime(0, 0, 0);
             $endDate->setTime(23, 59, 59);
-            // Применяем временную зону к условию запроса
             $query->andWhere(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')]);
         }
 
@@ -235,5 +231,13 @@ class Payment extends ActiveRecord
                 $payment->save();
             }
         }
+    }
+
+    /**
+     * Метод для обновления статуса всех записей на 'hidden'.
+     */
+    public static function hideAllPayments()
+    {
+        return self::updateAll(['status' => 'hidden']);
     }
 }

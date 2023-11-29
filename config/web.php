@@ -45,8 +45,8 @@ $config = [
         'urlManager' => require(__DIR__ . '/__urlManager.php'),
         'TinkoffPayment' => [
             'class' => 'app\components\TinkoffPayment',
-            'terminalKey' => '1698051347490DEMO',
-            'secretKey' => 'kdn3vhd70k7s9xmj',
+            'terminalKey' => '1698051347490',
+            'secretKey' => 'oxftru0gdhomc2oc',
         ],
 
         /*

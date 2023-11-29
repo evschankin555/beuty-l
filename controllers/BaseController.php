@@ -82,22 +82,28 @@ class BaseController extends Controller
     public function actionAdminPanel()
     {
         $this->layout = 'admin';
+        if (Yii::$app->user->isGuest){
+            header("HTTP/1.1 301 Moved Permanently");
+            header("Location: ". $_SERVER['REQUEST_SCHEME'].'://'.
+                $_SERVER['HTTP_HOST'].'/login');
+            exit();
+        }else{
+            $payments = Payment::find()->where(['<>', 'status', 'hidden'])->all();
+            $uniqueParticipants = Payment::countUniqueParticipants();
+            $totalTicketCount = Payment::sumTicketCounts();
+            $totalTicketCountPaid = Payment::sumTotalTicketCountsPaid();
+            $totalAmount = Payment::sumTotalAmount();
+            $totalAmountPaid = Payment::sumTotalAmountPaid();
 
-        $payments = Payment::find()->all();
-        $uniqueParticipants = Payment::countUniqueParticipants();
-        $totalTicketCount = Payment::sumTicketCounts();
-        $totalTicketCountPaid = Payment::sumTotalTicketCountsPaid();
-        $totalAmount = Payment::sumTotalAmount();
-        $totalAmountPaid = Payment::sumTotalAmountPaid();
-
-        return $this->render('adminPanel', [
-            'payments' => $payments,
-            'uniqueParticipants' => $uniqueParticipants,
-            'totalTicketCount' => $totalTicketCount,
-            'totalTicketCountPaid' => $totalTicketCountPaid,
-            'totalAmount' => $totalAmount,
-            'totalAmountPaid' => $totalAmountPaid,
-        ]);
+            return $this->render('adminPanel', [
+                'payments' => $payments,
+                'uniqueParticipants' => $uniqueParticipants,
+                'totalTicketCount' => $totalTicketCount,
+                'totalTicketCountPaid' => $totalTicketCountPaid,
+                'totalAmount' => $totalAmount,
+                'totalAmountPaid' => $totalAmountPaid,
+            ]);
+        }
     }
     public function actionCreatePayment()
     {
@@ -181,6 +187,8 @@ class BaseController extends Controller
 
         $payments = Payment::find()
             ->where(['between', 'datetime', $startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s')])
+            ->andWhere(['<>', 'status', 'hidden'])
+            ->andWhere(['=', 'status', 'CONFIRMED'])
             ->all();
 
         $adminPageModule = new AdminPage($startDate->format('Y-m-d H:i:s'), $endDate->format('Y-m-d H:i:s'), null, null, null, null, null);
@@ -216,7 +224,15 @@ class BaseController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         $postEmail = Yii::$app->request->post('email');
-        $amount = $postTicketCount = Yii::$app->request->post('amount');
+        $amount = Yii::$app->request->post('amount');
+
+        $TicketCountlists = [
+            90 => 1,
+            450 => 5,
+            900 => 10
+        ];
+
+        $postTicketCount = $TicketCountlists[$amount];
 
         if ($postEmail === null || $postTicketCount === null) {
             Yii::$app->response->data = ['success' => false, 'error' => 'Обязательные поля пустые.'];

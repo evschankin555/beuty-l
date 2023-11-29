@@ -102,21 +102,41 @@ class AdminPage
 
             $statusEmoji = ''; // Переменная для смайлика
 
-            // Добавляем смайлик в зависимости от статуса
-            if ($status == 'начата оплата') {
-                $statusEmoji = '🟡';
-            } elseif ($status == 'оплачено') {
-                $statusEmoji = '✅';
-            } elseif ($status == 'отменено') {
-                $statusEmoji = '❌';
+            // Преобразуем дату в объект DateTime с указанием временной зоны
+            $paymentDateTime = new \DateTime($payment->datetime, new \DateTimeZone('Europe/Moscow'));
+            $currentDateTime = new \DateTime('now', new \DateTimeZone('Europe/Moscow'));
+
+            // Разница во времени
+            $interval = $currentDateTime->diff($paymentDateTime);
+
+
+            if ($status <> 'CONFIRMED' && ($interval->d >= 1 || $interval->h >= 24)) {
+                $rowClass = 'table-grey'; // Класс для серого цвета
+                $statusEmoji = '⚪️';
+                $status = 'истекло время оплаты';
+
+                // Обновляем статус в базе данных
+                $payment->status = $status;
+                $payment->save();
+            } else {
+                if ($status == 'начата оплата') {
+                    $statusEmoji = '🟡';
+                } elseif ($status == 'CONFIRMED') {
+                    $statusEmoji = '✅';
+                } else {
+                    $statusEmoji = '⚪️';
+                }
             }
+
 
             // Преобразуем дату в объект DateTime с указанием временной зоны
             $datetime = new \DateTime($datetime, new \DateTimeZone('Europe/Moscow'));
+            $formattedDate = $datetime->format('Y-m-d H:i:s');
 
             $table .= "
         <tr class='$rowClass'>
-            <th scope='row' title='" . $datetime->format('Y-m-d H:i:s') . " payment_id:" . $payment_id . "'>$id</th>
+            <th scope='row' title='payment_id:" . $payment_id . "'>$id</th>
+            <td>$formattedDate</td>
             <td title='$status'>$statusEmoji $cardNumber</td>
             <td>$email</td>
             <td title='$amount ₽'>$ticketCount</td>

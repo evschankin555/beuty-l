@@ -5,7 +5,10 @@ use app\components\AdminPage;
 $this->title = 'Админ панель';
 $this->params['breadcrumbs'][] = $this->title;
 
-$adminPageModule = new AdminPage(null, null, $uniqueParticipants, $totalTicketCount, $totalTicketCountPaid, $totalAmount, $totalAmountPaid);
+$adminPageModule = new AdminPage(null, null,
+    $uniqueParticipants, $totalTicketCount, $totalTicketCountPaid,
+    $totalAmount, $totalAmountPaid);
+    /*<button type="button" class="admin-btn" id="hide-all-payments">Скрыть все платежи</button>*/
 
 $html = $adminPageModule->generateAdminCards();
 ?>
@@ -13,11 +16,14 @@ $html = $adminPageModule->generateAdminCards();
     <div class="table-container">
         <table class="table table-hover">
             <thead>
-            <tr>
-                <th scope="col" class="col-2 centered ">#</th>
+            <tr><tr>
+                <th scope="col" class="col-2 centered">#</th>
+                <th scope="col" class="col-4">Дата</th>
                 <th scope="col" class="col-4">Номер карты</th>
                 <th scope="col" class="col-4">Email</th>
-                <th scope="col" class="col-2 centered ">Билетов</th>
+                <th scope="col" class="col-2 centered">Билетов</th>
+            </tr>
+
             </tr>
             </thead>
             <tbody id="table-one">
@@ -130,6 +136,7 @@ $html = $adminPageModule->generateAdminCards();
     document.addEventListener('DOMContentLoaded', function () {
         const downloadAll = document.querySelector('#download-all');
         const download10 = document.querySelector('#download-10');
+        const hideAllPayments = document.querySelector('#hide-all-payments');
 
         downloadAll.addEventListener('click', function () {
             sendDownloadRequest('download-all');
@@ -138,7 +145,24 @@ $html = $adminPageModule->generateAdminCards();
         download10.addEventListener('click', function () {
             sendDownloadRequest('download-10');
         });
+
+        hideAllPayments.addEventListener('click', function () {
+            sendHideAllPaymentsRequest();
+        });
     });
 
 
+    function sendHideAllPaymentsRequest() {
+        fetch('/payment/hide-all', {
+            method: 'POST',
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при скрытии платежей');
+            });
+    }
 </script>
