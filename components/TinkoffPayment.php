@@ -52,7 +52,7 @@ class TinkoffPayment extends Component
                 $responseData = json_decode($response->getBody()->getContents(), true);
                 if (isset($responseData['Success']) && $responseData['Success'] == 1) {
                     $payment->payment_id = $responseData['PaymentId'];
-                    $this->setPaymentIdToCookie($responseData['PaymentId']);
+                    $this->setPaymentIdToCookie($responseData['PaymentId'], $amount);
                     if ($responseData['Status'] === 'NEW') {
                         $payment->status = 'начата оплата';
                     } else {
@@ -101,7 +101,6 @@ class TinkoffPayment extends Component
             'TerminalKey' => $this->terminalKey,
             'PaymentId' => (int)$paymentId,
         ];
-
         // Создание токена
         $tokenString = $this->terminalKey . $paymentId . $this->secretKey;
         $token = hash('sha256', $tokenString);
@@ -111,7 +110,6 @@ class TinkoffPayment extends Component
             $response = $client->post('GetState', [
                 'json' => $data
             ]);
-
             if ($response->getStatusCode() === 200) {
                 $responseData = json_decode($response->getBody()->getContents(), true);
                 if (isset($responseData['Success']) && $responseData['Success'] == 1) {
@@ -133,12 +131,17 @@ class TinkoffPayment extends Component
      * @param string $paymentId
      * @return void
      */
-    private function setPaymentIdToCookie($paymentId)
+    private function setPaymentIdToCookie($paymentId, $amount)
     {
         $cookies = Yii::$app->response->cookies;
         $cookies->add(new \yii\web\Cookie([
             'name' => 'PaymentId',
             'value' => $paymentId,
+            'expire' => time() + 86400, // Куки будет живым 24 часа.
+        ]));
+        $cookies->add(new \yii\web\Cookie([
+            'name' => 'amount',
+            'value' => $amount,
             'expire' => time() + 86400, // Куки будет живым 24 часа.
         ]));
     }

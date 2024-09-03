@@ -11,6 +11,7 @@ use yii\bootstrap5\Button;
 <div class="buy-block" id="buy-new">
     <img src="/images/dist/logo.png" class="popup__logo" alt="">
     <div class="popup__title">Поздравляю, вы стали участником лотереи.<br><br>Желаем удачи!</div>
+    <a href="<?= Html::encode($link) ?>" class="popup-btn" target="_blank">Ваша капсула</a>
     <a href="/" class="popup-btn">купить еще билет</a>
 </div>
 <style>

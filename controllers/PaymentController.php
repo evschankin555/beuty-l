@@ -47,6 +47,7 @@ class PaymentController extends Controller
         $cookies = Yii::$app->request->cookies;
         if (isset($cookies['PaymentId'])) {
             $paymentId = $cookies['PaymentId']->value;
+            $amount = $cookies['amount']->value;
             $tinkoffPay = Yii::$app->TinkoffPayment;
             $paymentStatus = $tinkoffPay->checkPaymentStatus($paymentId);
             if ($paymentStatus && isset($paymentStatus['Status'])) {
@@ -68,10 +69,31 @@ class PaymentController extends Controller
                     $payment->save();
                 }
             }
-        }
 
-        return $this->render('success');
+            // Определяем ссылку на основе значения $amount
+            $link = '';
+            switch ($amount) {
+                case 90:
+                    $link = 'https://drive.google.com/drive/folders/1Mw4fkFC4f7hnXdDoMm3L4lR42wEcExoD';
+                    break;
+                case 450:
+                    $link = 'https://drive.google.com/drive/folders/1-6hA18nK8axd-nbV7BlI_E9Tl_FCbR3N';
+                    break;
+                case 900:
+                    $link = 'https://drive.google.com/drive/folders/1-71X9b3sbi2Q2VyprUNR0q6HlBiW7cwr';
+                    break;
+            }
+
+            // Передаем ссылку в шаблон
+            return $this->render('success', ['link' => $link]);
+        }else{
+            header("HTTP/1.1 301 Moved Permanently");
+            header("Location: ". $_SERVER['REQUEST_SCHEME'].'://'.
+                $_SERVER['HTTP_HOST'].'/');
+            exit();
+        }
     }
+
 
     /**
      * Действие в случае ошибки оплаты.
